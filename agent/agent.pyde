@@ -32,34 +32,39 @@ def neighbors(i, j):
                  
 def bfs(s, e):
 
-    global life
+    global grid
 
     if frontier:
+
         u = frontier.pop(0)
-        i,j = u
+        i, j = u
         grid[i][j].visited = True
+
         if (i, j) != s and (i, j) != e:
-            grid[i][j].setColor("#f757f7")   
-        if u == e:
-            i, j = u
+            grid[i][j].setColor("#f757f7") #set color pink to show the elements that were visited 
+
+        if u == e: #if we found the food
+
+            time.sleep(2) #delay to show we found the path
+            reset() #reseting the actual colors of all the elements
+            time.sleep(1) #delay before coloring the path
+
             path = backtrace(parent, s, e)
             for i, j in path:
                 if (i, j) != s and (i, j) != e:
-                    grid[i][j].setColor("#850000")
-            
-            if (i, j) != s and (i, j) != e:
-                grid[i][j].setColor("#55ff55")
+                    grid[i][j].setColor("#850000") #set the path color
+        
             return True, path
                 
         y, x = u
-        for v in neighbors(y, x):
-            i,j = v
-            if v not in frontier and not grid[i][j].visited:
+        for v in neighbors(y, x): #access the neighbors of the current element
+            i, j = v
+            if v not in frontier and not grid[i][j].visited: #if the neighbor is not already in the frontier and it wasnt visited, add it to the list
                 parent[v] = u
                 frontier.append(v)
-                i,j = v
+                i, j = v
                 if (i, j) != s and (i, j) != e:
-                    grid[i][j].setColor("#000057")
+                    grid[i][j].setColor("#000057") #set color dark blue to show the neighbors elements
     
     return False, []
                 
@@ -71,24 +76,32 @@ def heuristic(a, b):
 
 def custoso(s, e):
 
+    global grid
+
     if frontier_cost:
+
         cost, p = heapq.heappop(frontier_cost)
         i, j = p
         grid[i][j].visited = True
-        if (i, j) != s and (i, j) != e:
-            grid[i][j].setColor("#f757f7")   
 
-        if p == e:
+        if (i, j) != s and (i, j) != e:
+            grid[i][j].setColor("#f757f7") #set color pink to show the elements that were visited 
+
+        if p == e: #if we found the food
+
+            time.sleep(2) #delay to show we found the path
+            reset() #reseting the actual colors of all the elements
+            time.sleep(1) #delay before coloring the path
+
             path = backtrace(parent, s, e)
             for i, j in path:
                 if (i, j) != s and (i, j) != e:
-                    grid[i][j].setColor("#850000")
-            i, j = e
-            grid[i][j].setColor("#55ff55")
+                    grid[i][j].setColor("#850000") #set the path color
+           
             return True, path
 
         y, x = p
-        for next in neighbors(y, x):
+        for next in neighbors(y, x): #access the neighbors of the current element
             a, b = next
             new_cost = cost_so_far[p] + grid[a][b].cost
             if next not in cost_so_far or new_cost < cost_so_far[next]:
@@ -97,30 +110,39 @@ def custoso(s, e):
                 heapq.heappush(frontier_cost,(prioridade, next))
                 parent[next] = p
                 if (i, j) != s and (i, j) != e:
-                    grid[a][b].setColor("#000057")
+                    grid[a][b].setColor("#000057") #set color dark blue to show the neighbors elements
     
     return False, []
 
 
 def aStar(s,e):
+
+    global grid
     
     if frontier_cost:
+
         cost, p = heapq.heappop(frontier_cost)
         i, j = p
         grid[i][j].visited = True
+
         if (i, j) != s and (i, j) != e:
-            grid[i][j].setColor("#f757f7")   
-        if p == e:
+            grid[i][j].setColor("#f757f7") #set color pink to show the elements that were visited
+        
+        if p == e: #if we found the food
+
+            time.sleep(2) #delay to show we found the path
+            reset() #reseting the actual colors of all the elements
+            time.sleep(1) #delay before coloring the path
+
             path = backtrace(parent, s, e)
-            for i,j in path:
+            for i, j in path:
                 if (i, j) != s and (i, j) != e:
-                    grid[i][j].setColor("#850000")
-            i, j = e
-            grid[i][j].setColor("#55ff55")
+                    grid[i][j].setColor("#850000") #set the path color
+            
             return True, path
         
         y, x = p
-        for next in neighbors(y, x):
+        for next in neighbors(y, x): #access the neighbors of the current element
             a, b = next
             new_cost = cost_so_far[p] + grid[a][b].cost
             if next not in cost_so_far or new_cost < cost_so_far[next]:
@@ -129,34 +151,39 @@ def aStar(s,e):
                 heapq.heappush(frontier_cost,(prioridade, next))
                 parent[next] = p
                 if (i, j) != s and (i, j) != e:
-                    grid[a][b].setColor("#000057")
+                    grid[a][b].setColor("#000057") #set color dark blue to show the neighbors elements
     
     return False, []
 
 
 def greedy(s, e):
 
+    global grid
+
     if frontier_cost:
+
         c, u = frontier_cost.pop(0)
         i, j = u
         grid[i][j].visited = True
-        if (i, j) != s and (i, j) != e:
-            grid[i][j].setColor("#f757f7")   
 
-        if u == e:
-            i, j = u
+        if (i, j) != s and (i, j) != e:
+            grid[i][j].setColor("#f757f7") #set color pink to show the elements that were visited 
+
+        if u == e: #if we found the food
+
+            time.sleep(2) #delay to show we found the path
+            reset() #reseting the actual colors of all the elements
+            time.sleep(1) #delay before coloring the path
                 
             path = backtrace(parent, s, e)
             for i, j in path:
                 if (i, j) != s and (i, j) != e:
-                    grid[i][j].setColor("#850000")
+                    grid[i][j].setColor("#850000") #set the path color
                 
-            if (i, j) != s and (i, j) != e:
-                grid[i][j].setColor("#55ff55")
             return True, path
                 
         y, x = u
-        for v in neighbors(y, x):
+        for v in neighbors(y, x): #access the neighbors of the current element
             i, j = v
             if v not in came_from and not grid[i][j].visited:
                 priority = heuristic(e, v)
@@ -164,41 +191,46 @@ def greedy(s, e):
                 heapq.heappush(frontier_cost, (priority, v))
                 came_from[v] = u
                 if (i, j) != s and (i, j) != e:
-                    grid[i][j].setColor("#000057")
+                    grid[i][j].setColor("#000057") #set color dark blue to show the neighbors elements
     
     return False, []
 
 
 def dfs(s, e):
 
+    global grid
+
     if frontier:
+
         u = frontier.pop(-1)
         i, j = u
         grid[i][j].visited = True
-        if (i, j) != s and (i, j) != e:
-            grid[i][j].setColor("#f757f7")    
 
-        if u == e:
-            i, j = u
+        if (i, j) != s and (i, j) != e:
+            grid[i][j].setColor("#f757f7") #set color pink to show the elements that were visited 
+
+        if u == e: #if we found the food
+
+            time.sleep(2) #delay to show we found the path
+            reset() #reseting the actual colors of all the elements
+            time.sleep(1) #delay before coloring the path
                 
             path = backtrace(parent, s, e)
-            for i,j in path:
+            for i, j in path:
                 if (i, j) != s and (i, j) != e:
-                    grid[i][j].setColor("#850000")
+                    grid[i][j].setColor("#850000") #set the path color
                 
-            if (i, j) != s and (i, j) != e:
-                grid[i][j].setColor("#55ff55")
             return True, path
                 
         y, x = u
-        for v in neighbors(y, x):
+        for v in neighbors(y, x): #access the neighbors of the current element
             i, j = v
             if v not in frontier and not grid[i][j].visited:
                 parent[v] = u
                 frontier.append(v)
                 i, j = v
                 if (i, j) != s and (i, j) != e:
-                    grid[i][j].setColor("#000057")
+                    grid[i][j].setColor("#000057") #set color dark blue to show the neighbors elements
     
     return False, []
 
@@ -226,24 +258,27 @@ def init(f):
     global frontier, parent
     global came_from, frontier_cost, cost_so_far, grid
     global old
-
+    global old_element_type
+    
     s = f
     old = f
         
     i, j = s
-    grid[i][j].setColor("#9f1cfc")
-    
-    i, j = e
-    grid[i][j].setColor("#55ff55")
+    grid[i][j].updateElementType(element_type = "agent") #agent
 
-    grid[i][j].updateElementType(element_type = None)
+    if old_element_type:
+        grid[i][j].updateElementType(element_type = old_element_type)
+
+    #reset()
+
     e = randint(0, rows - 1), randint(0, cols - 1)
     i, j = e
 
     while f == e or grid[i][j].obstacle:
         e = randint(0, rows - 1), randint(0, cols - 1)
         i, j = e
-    
+
+    old_element_type = grid[i][j].element_type
     grid[i][j].updateElementType(element_type = 'food')
         
     grid[i][j].setColor()
@@ -269,9 +304,8 @@ def setup():
     global frontier, frontier_cost, parent, finish, came_from, cost_so_far, walk
     global s, e
     global old
-    global life
+    global old_element_type
 
-    life = 100
 
     size(600, 600)
     font = createFont("Arial", 16)
@@ -279,23 +313,54 @@ def setup():
     rows,cols = 40, 40
     scaleX = width/cols 
     scaleY = height/rows -2
-    s = (0, 0)
+    s = (0, 0) #start position of agent
     e = (rows - 1, cols - 1)
     old = s
-    grid = [[MatrixElement(i, j) for j in range(cols)] for i in range(rows)]
+
+    #creation of random map
+    less_cols = int(cols/5)
+    less_rows = int(rows/5)
+    grid = [["" for j in range(cols)] for i in range(rows)]
+    for x in range(less_rows):
+        for y in range(less_cols):
+            
+            if x != 0 and y != 0:
+                #sand 30%, mud 30%, watter 30%, obstacle 10%
+                random = randint(1, 10)
+                if random < 2:
+                    element_type = "obstacle"
+                elif random < 5:
+                    element_type = "sand"
+                elif random < 8:
+                    element_type = "mud"
+                else:
+                    element_type = "watter"
+            else: #no obstacle in 0, 0 possition
+                #sand 33.33...%, mud 33.33...%, watter 33.33...%
+                random = randint(1, 9)
+                if random < 4:
+                    element_type = "sand"
+                elif random < 7:
+                    element_type = "mud"
+                else:
+                    element_type = "watter"
+            
+            for i in range(x*5, x*5 + 5):
+                for j in range(y*5, y*5 + 5):
+                    grid[i][j] = MatrixElement(i, j, element_type = element_type)
+
+    old_element_type = grid[0][0].element_type
     init(s)
     walk = False
 
 
 def goto(old, next):
 
-    global life
-
     iOld, jOld = old
     iNext, jNext = next
     
-    grid[iNext][jNext].setColor("#9f1cfc")
-    grid[iOld][jOld].setColor("#850000")
+    grid[iNext][jNext].setColor("#9f1cfc") #agent
+    grid[iOld][jOld].setColor("#850000") #path
     
 
 def draw():
@@ -306,15 +371,16 @@ def draw():
     global walk
     global old
     global font, cnt
-    global life
+    global grid
 
     if not finish:
 
         i, j = s
-        grid[i][j].setColor("#9f1cfc")
+        grid[i][j].setColor("#9f1cfc") #agent
         i, j = e
-        grid[i][j].setColor("#55ff55")
-        finish, path = custoso(s, e)
+        grid[i][j].setColor("#55ff55") #food
+
+        finish, path = greedy(s, e)
         if finish:
             walk = finish
             s = e
@@ -322,22 +388,26 @@ def draw():
     elif walk and finish:
 
         next = path.pop(0)
+        i, j = next
+        if grid[i][j].element_type == "sand":
+            time.sleep(0.1)
+        elif grid[i][j].element_type == "mud":
+            time.sleep(0.5)
+        elif grid[i][j].element_type == "watter":
+            time.sleep(1.0)
+
         goto(old, next)
-        life -= grid[next[0]][next[1]].cost #subtracting life from agent based on path element
-        if life <= 0:
-            #agent died before getting to the food so DO SOMETHING
-            pass
         old = next
         time.sleep(0.2)
         if len(path) == 0:
             walk = False
-            life += 20 #life from food
             cnt += 1
 
     else:
 
         time.sleep(1)
         reset()
+        time.sleep(1)
         init(e)
                 
     background(0)
@@ -345,4 +415,3 @@ def draw():
     fill("#f3f6f4")
     textFont(font, 32)
     text("Food Collected: {}".format(cnt), 5, height - 10)
-    text("Agents Life: {}".format(life), 5, height - 45)

@@ -10,7 +10,7 @@ class MatrixElement:
         self.y = y
         self.element_type = element_type
 
-        self.sand, self.mud, self.watter, self.obstacle, self.food = False, False, False, False, False
+        self.sand, self.mud, self.watter, self.obstacle, self.food, self.agent = False, False, False, False, False, False
         self.cost = 0
 
         #code snippet for random generation of elements
@@ -36,6 +36,8 @@ class MatrixElement:
             self.mud = True
         elif self.element_type == "watter":
             self.watter = True
+        elif self.element_type == "agent":
+            self.agent = True
             
         self.visited = False #flag to indicate if the element was visited
         self.setColor() #set differend color to different type of elements
@@ -43,7 +45,7 @@ class MatrixElement:
     def updateElementType(self, element_type = None):
 
         self.element_type = element_type
-        self.sand, self.mud, self.watter, self.obstacle, self.food = False, False, False, False, False
+        self.sand, self.mud, self.watter, self.obstacle, self.food, self.agent = False, False, False, False, False, False
         self.cost = 0
 
         if not self.element_type:
@@ -71,6 +73,8 @@ class MatrixElement:
             self.obstacle = True
         elif self.element_type == "food":
             self.food = True
+        elif self.element_type == "agent":
+            self.agent = True
         
         self.visited = False #flag to indicate if the element was visited
         self.setColor() #set differend color to different type of elements
@@ -88,20 +92,21 @@ class MatrixElement:
             else:
 
                 if self.food:
-                    self.color = "#55ff55" #green
+                    self.color = "#55ff55" #green (food)
                 elif self.obstacle:
-                    self.color = "#000000" #black
+                    self.color = "#000000" #black (obstacle)
                 elif self.sand:
                     self.color = "#ebc633" #golden yellow (sand)
                 elif self.mud:
                     self.color = "#834300" #brown (mud)
                 elif self.watter:
                     self.color = "#89cff0" #blue (watter)
+                elif self.agent:
+                    self.color = "#9f1cfc" #purple (agent)
 
         else:
 
             self.color = color #the matrix empty spots will change to a selected color
-
 
 
     def show(self, element_width, element_height):
@@ -109,13 +114,18 @@ class MatrixElement:
         if self.food:
             fill(self.color)
         elif self.obstacle:
+            noStroke()
             fill(self.color)
         elif self.sand:
+            noStroke()
             fill(self.color)
         elif self.mud:
+            noStroke()
             fill(self.color)
         elif self.watter:
+            noStroke()
+            fill(self.color)
+        elif self.agent:
             fill(self.color)
 
-        stroke(0)
         rect(self.x * element_width, self.y * element_height, element_width, element_height)
