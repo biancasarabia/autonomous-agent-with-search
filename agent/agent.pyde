@@ -77,6 +77,7 @@ def heuristic(a, b):
 def custoso(s, e):
 
     global grid
+    global cost_so_far
 
     if frontier_cost:
 
@@ -148,7 +149,7 @@ def aStar(s,e):
             if next not in cost_so_far or new_cost < cost_so_far[next]:
                 cost_so_far[next] = new_cost
                 prioridade = new_cost + heuristic(e, next)
-                heapq.heappush(frontier_cost,(prioridade, next))
+                heapq.heappush(frontier_cost, (prioridade, next))
                 parent[next] = p
                 if (i, j) != s and (i, j) != e:
                     grid[a][b].setColor("#000057") #set color dark blue to show the neighbors elements
@@ -162,7 +163,8 @@ def greedy(s, e):
 
     if frontier_cost:
 
-        c, u = frontier_cost.pop(0)
+        #c, u = frontier_cost.pop(0)
+        c, u = heapq.heappop(frontier_cost)
         i, j = u
         grid[i][j].visited = True
 
@@ -380,7 +382,7 @@ def draw():
         i, j = e
         grid[i][j].setColor("#55ff55") #food
 
-        finish, path = greedy(s, e)
+        finish, path = aStar(s, e)
         if finish:
             walk = finish
             s = e

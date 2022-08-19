@@ -32,15 +32,19 @@ class MatrixElement:
             self.food = True
         elif self.element_type == "sand":
             self.sand = True
+            self.cost = 1
         elif self.element_type == "mud":
             self.mud = True
+            self.cost = 2
         elif self.element_type == "watter":
             self.watter = True
+            self.cost = 3
         elif self.element_type == "agent":
             self.agent = True
             
         self.visited = False #flag to indicate if the element was visited
         self.setColor() #set differend color to different type of elements
+
 
     def updateElementType(self, element_type = None):
 
